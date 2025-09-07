@@ -1,0 +1,1 @@
+WORDLE_TASK_PREFIX = "wordle-task-"
