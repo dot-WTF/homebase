@@ -10,3 +10,4 @@ MONGO_DATABASE_NAME = "cwru-wtf-db"
 
 class CollectionNames(StrEnum):
     SCHEDULES = "schedules"
+    ORGANIZATIONS = "organizations"

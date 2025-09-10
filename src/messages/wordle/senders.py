@@ -8,7 +8,7 @@ import base64
 def send_reminder_via_gmail(recipient_email: str, recipient_name: str):
     service = create_gmail_service()
     html_signature = get_gmail_signature(service)
-    html_signature = build_html_with_gmail_signature(
+    html_message = build_html_with_gmail_signature(
         MessageGreetings.ITS_BEEN_A_WHILE.format(user_name=recipient_name),
         MessageBodies.ITS_BEEN_A_WHILE, html_signature
     )
@@ -16,7 +16,7 @@ def send_reminder_via_gmail(recipient_email: str, recipient_name: str):
     message["To"] = recipient_email
     message["From"] = f"{GMAIL_DISPLAY_NAME} <{NOTIFICATIONS_SENDER_EMAIL}>"
     message["Subject"] = MessageSubjects.ITS_BEEN_A_WHILE
-    message.add_alternative(html_signature, subtype='html')
+    message.add_alternative(html_message, subtype='html')
 
     encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
     create_message = {"raw": encoded_message}

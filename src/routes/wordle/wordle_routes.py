@@ -4,7 +4,7 @@ from starlette import status
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.mongodb import MongoDBJobStore
 from src.utils.id_generator.generator import IdGenerator
-from src.utils.id_generator.constants import WORDLE_TASK_PREFIX
+from src.utils.id_generator.constants import WORDLE_REMINDER_TASK_PREFIX
 from src.routes.wordle.constants import WORDLE_REMINDER_INTERVAL_IN_HOURS
 from datetime import datetime, timedelta
 from src.schemas.wordle.constants import ResponseMessages
@@ -25,13 +25,13 @@ router = APIRouter(prefix="/wordle", tags=["Wordle"])
             description="create a scheduled reminder for a user to play wordle",
             status_code=status.HTTP_201_CREATED,
             response_model=CreateWordleReminderResponse)
-def create_schedule(request: CreateWordleReminderRequest):
+def create_schedule(request: CreateWordleReminderRequest) -> CreateWordleReminderResponse:
 
     user_id = request.id
     user_name = request.name
     user_email = request.email
 
-    job_id = IdGenerator.generate_id(WORDLE_TASK_PREFIX, user_id)
+    job_id = IdGenerator.generate_id_from_unique_suffix(WORDLE_REMINDER_TASK_PREFIX, user_id)
 
     if scheduler.get_job(job_id):
         scheduler.remove_job(job_id)
@@ -52,10 +52,10 @@ def create_schedule(request: CreateWordleReminderRequest):
             description="Delete a scheduled reminder for a user to play wordle",
             status_code=status.HTTP_200_OK,
             response_model=DeleteWordleReminderResponse)
-def delete_schedule(request: DeleteWordleReminderRequest):
-    
+def delete_schedule(request: DeleteWordleReminderRequest) -> DeleteWordleReminderResponse:
+
     user_id = request.id
-    job_id = IdGenerator.generate_id(WORDLE_TASK_PREFIX, user_id)
+    job_id = IdGenerator.generate_id_from_unique_suffix(WORDLE_REMINDER_TASK_PREFIX, user_id)
 
     if not scheduler.get_job(job_id):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No schedule found for this user")
