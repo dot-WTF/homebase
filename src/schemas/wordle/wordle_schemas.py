@@ -4,6 +4,7 @@ class CreateWordleReminderRequest(BaseModel):
     id: str
     email: EmailStr
     name: str
+    interval: int 
     
 class CreateWordleReminderResponse(BaseModel):
     message: str
