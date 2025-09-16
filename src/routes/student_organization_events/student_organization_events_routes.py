@@ -125,7 +125,8 @@ def subscribe(request: SubscribeToStudentOrganizationEventRequest) -> SubscribeT
     user_phone_number = request.phone_number
     organization_abbreviation = request.organization_abbreviation
     repository = StudentOrganizationMongoRepository()
-    sns_topic_arn = repository.get(organization_abbreviation).sns_topic_arn
+    sns_topic_arn = repository.get(organization_abbreviation).sns_topic_arne
+    
     subscribe_user_to_event(sns_topic_arn, user_phone_number)
 
     return SubscribeToStudentOrganizationEventResponse(
