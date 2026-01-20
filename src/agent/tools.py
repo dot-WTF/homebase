@@ -62,3 +62,19 @@ def toggle_alarm():
 @tool
 def set_alarm():    
     send_request()
+
+
+HOUSE_AGENT_TOOLS = [
+    toggle_light,
+    set_light,
+    toggle_door,
+    set_door_open,
+    toggle_door_lock,
+    set_door_lock,
+    set_thermostat,
+    toggle_alarm,
+    set_alarm,
+    set_blinds,
+    toggle_fan,
+    set_fan
+]
