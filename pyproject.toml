@@ -6,4 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "langchain>=1.2.6",
+    "langchain-openai>=1.1.7",
+    "pydantic>=2.12.5",
+    "starlette>=0.52.1",
 ]
