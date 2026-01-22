@@ -1,4 +1,5 @@
 import keyboard
+import sys
 from src.agent.agent import create_house_agent
 from src.utils.audio import listen_for_audio, test_device_availabaility
 from src.utils.stt import transcribe_audio
@@ -16,7 +17,7 @@ def main():
     while True:
         if keyboard.is_pressed('esc'):
             print("Exiting program.")
-            break
+            sys.exit(0)
 
         if keyboard.is_pressed('enter'):
             try:  
