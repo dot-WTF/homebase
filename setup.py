@@ -9,12 +9,6 @@ class MachineSystem(StrEnum):
     UNIX = "unix" 
     WINDOWS = "windows"
 
-class PythonExecutable(StrEnum):
-    PIP_WINDOWS = "pip"
-    PIP_UNIX = "pip3"
-    PYTHON_WINDOWS = "python"
-    PYTHON_UNIX = "python3"
-
 def setup_uv(system: MachineSystem) -> bool:
     if system == MachineSystem.WINDOWS:
         try: 
@@ -46,15 +40,15 @@ def setup_venv()-> bool:
         return False
     return True
 
-def install_dependencies(pip_executable: PythonExecutable): 
+def install_dependencies() -> bool: 
     try:
-        subprocess.run([pip_executable, "install", "-r", "requirements.txt"], check=True)
+        subprocess.run(["uv", "sync"], check=True)
     except Exception as e:
         print(f"ERROR INSTALLING DEPENDENCIES:\n {e}")
         return False
     return True
 
-def activate_venv(system: MachineSystem):    
+def activate_venv(system: MachineSystem) -> bool:    
     activate_script = system == MachineSystem.WINDOWS and ".\\.venv\\Scripts\\activate" or "source .venv/bin/activate"
     try:
         subprocess.run(activate_script, shell=True, check=True)
@@ -65,13 +59,11 @@ def activate_venv(system: MachineSystem):
 
 def main():
     system = platform.system().lower() == MachineSystem.WINDOWS and MachineSystem.WINDOWS or MachineSystem.UNIX
-
-    python_executable = system == MachineSystem.WINDOWS and PythonExecutable.PYTHON_WINDOWS or PythonExecutable.PYTHON_UNIX
     
     setup_uv_result = setup_uv(system)
     initialize_project_result = initialize_project()
     setup_venv_result = setup_venv()
-    install_dependencies_result = install_dependencies(python_executable)
+    install_dependencies_result = install_dependencies()
     activate_venv_result = activate_venv(system)
 
     result_base = [
