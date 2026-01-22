@@ -1,6 +1,5 @@
 from starlette import status
 import requests
-import os 
 
 from src.agent.schema import HouseActionsSchema
 from src.config.env import HOUSE_ID, RESOURCE_URL
@@ -27,5 +26,5 @@ def send_request( data: HouseActionsSchema) -> bool:
         return response.status_code == status.HTTP_200_OK
     except requests.RequestException as e:
         # Gracefully handle request errors
-        print(f"Error sending request: {e}")
+        print(f"Error sending request: \n{e}")
         return False
