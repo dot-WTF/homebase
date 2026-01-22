@@ -1,5 +1,5 @@
 from langchain.tools import tool 
-
+from enum import StrEnum
 from src.utils.net import send_request
 from src.agent.schema import (
     ToggleAlarmSchema, ToggleLightSchema, ToggleDoorSchema,
@@ -9,59 +9,85 @@ from src.agent.schema import (
 )
 from src.agent.prompts import HouseActionsPrompts
 
-# Lights control tools
-@tool
-def toggle_light():
-    send_request() 
+class ToolNames(StrEnum):
+    TOGGLE_LIGHT = "toggleLight"
+    SET_LIGHT = "setLight"
+    TOGGLE_DOOR = "toggleDoor"
+    SET_DOOR_OPEN = "setDoorOpen"
+    TOGGLE_DOOR_LOCK = "toggleDoorLock"
+    SET_DOOR_LOCK = "setDoorLock"
+    SET_THERMOSTAT = "setThermostat"
+    TOGGLE_ALARM = "toggleAlarm"
+    SET_ALARM = "setAlarm"
+    SET_BLINDS = "setBlinds"
+    TOGGLE_FAN = "toggleFan"
+    SET_FAN = "setFan"
 
-@tool
-def set_light():
-    send_request() 
+# Lights control tools
+@tool(ToolNames.TOGGLE_LIGHT, description=HouseActionsPrompts.TOGGLE_LIGHT, args_schema=ToggleLightSchema)
+def toggle_light(room: str, action: str = "toggleLight"):
+    request = ToggleLightSchema(room=room, action=action)
+    send_request(request) 
+
+@tool(ToolNames.SET_LIGHT, description=HouseActionsPrompts.SET_LIGHT, args_schema=SetLightSchema)
+def set_light(room: str, isOn: bool, action: str = "setLight"):
+    request = SetLightSchema(room=room, isOn=isOn, action=action)
+    send_request(request) 
 
 # Door control tools 
-@tool
-def toggle_door():
-    send_request()
+@tool(ToolNames.TOGGLE_DOOR, description=HouseActionsPrompts.TOGGLE_DOOR, args_schema=ToggleDoorSchema)
+def toggle_door(action: str = "toggleDoor"):
+    request = ToggleDoorSchema(action=action)
+    send_request(request)
 
-@tool
-def set_door_open():
-    send_request()
+@tool(ToolNames.SET_DOOR_OPEN, description=HouseActionsPrompts.SET_DOOR_OPEN, args_schema=SetDoorOpenSchema)
+def set_door_open(isOpen: bool, action: str = "setDoorOpen"):
+    request = SetDoorOpenSchema(isOpen=isOpen, action=action)
+    send_request(request)
 
-@tool
-def toggle_door_lock():
-    send_request()
+@tool(ToolNames.TOGGLE_DOOR_LOCK, description=HouseActionsPrompts.TOGGLE_DOOR_LOCK, args_schema=ToggleDoorLockSchema)
+def toggle_door_lock(action: str = "toggleDoorLock"):
+    request = ToggleDoorLockSchema(action=action)
+    send_request(request)
 
-@tool
-def set_door_lock():
-    send_request()
+@tool(ToolNames.SET_DOOR_LOCK, description=HouseActionsPrompts.SET_DOOR_LOCK, args_schema=SetDoorLockSchema)
+def set_door_lock(isLocked: bool, action: str = "setDoorLock"):
+    request = SetDoorLockSchema(isLocked=isLocked, action=action)
+    send_request(request)
 
 # Blinds control tools 
-@tool
-def set_blinds():
-    send_request()
+@tool(ToolNames.SET_BLINDS, description=HouseActionsPrompts.SET_BLINDS, args_schema=SetBlindsSchema)
+def set_blinds(room:str, percentage: int, action: str = "setBlinds"):
+    request = SetBlindsSchema(room=room, percentage=percentage, action=action)
+    send_request(request)
 
 # Thermostat control tools
-@tool
-def set_thermostat():
-    send_request()
+@tool(ToolNames.SET_THERMOSTAT, description=HouseActionsPrompts.SET_THERMOSTAT, args_schema=SetThermostatSchema)
+def set_thermostat(temperature: float, mode: str, action: str = "setThermostat"):
+    request = SetThermostatSchema(temperature=temperature, mode=mode, action=action)
+    send_request(request)
 
 # Fans control tools 
-@tool
-def toggle_fan():
-    send_request()
+@tool(ToolNames.TOGGLE_FAN, description=HouseActionsPrompts.TOGGLE_FAN, args_schema=ToggleFanSchema)
+def toggle_fan(action: str = "toggleFan"):
+    request = ToggleFanSchema(action=action)
+    send_request(request)
 
-@tool
-def set_fan():  
-    send_request()
+@tool(ToolNames.SET_FAN, description=HouseActionsPrompts.SET_FAN, args_schema=SetFanSchema)
+def set_fan(room: str, isOn: bool, action: str = "setFan"):  
+    request = SetFanSchema(room=room, isOn=isOn, action=action)
+    send_request(request)
 
 # Alarm control tools
-@tool
-def toggle_alarm():
-    send_request()
+@tool(ToolNames.TOGGLE_ALARM, description=HouseActionsPrompts.TOGGLE_ALARM, args_schema=ToggleAlarmSchema)
+def toggle_alarm(action: str = "toggleAlarm"):
+    request = ToggleAlarmSchema(action=action)
+    send_request(request)
 
-@tool
-def set_alarm():    
-    send_request()
+@tool(ToolNames.SET_ALARM, description=HouseActionsPrompts.SET_ALARM, args_schema=SetAlarmSchema)
+def set_alarm(isArmed: bool, action: str = "setAlarm"):    
+    request = SetAlarmSchema(isArmed=isArmed, action=action)
+    send_request(request)
 
 
 HOUSE_AGENT_TOOLS = [
