@@ -14,8 +14,8 @@ class ActionNames(StrEnum):
     SET_LIGHT = "setLight"
     TOGGLE_DOOR = "toggleDoor"
     SET_DOOR_OPEN = "setDoorOpen"
-    TOGGLE_DOOR_LOCK = "toggleDoorLock"
-    SET_DOOR_LOCK = "setDoorLock"
+    TOGGLE_DOOR_LOCK = "toggleLock"
+    SET_DOOR_LOCK = "setLock"
     SET_THERMOSTAT = "setThermostat"
     TOGGLE_ALARM = "toggleAlarm"
     SET_ALARM = "setAlarm"
@@ -48,7 +48,7 @@ class ToggleLightSchema(HouseActionsSchema):
 class SetLightSchema(HouseActionsSchema):
     action: Literal[ActionNames.SET_LIGHT] = Field(..., description="Action to set the light")
     room: valid_rooms_for_lights = Field(..., description="Room where the light is located")
-    isOn: bool = Field(..., description="Desired state of the light: True for ON, False for OFF")
+    on: bool = Field(..., description="Desired state of the light: True for ON, False for OFF")
 
 # Door schema
 class ToggleDoorSchema(HouseActionsSchema):
@@ -59,11 +59,11 @@ class ToggleDoorLockSchema(HouseActionsSchema):
 
 class SetDoorOpenSchema(HouseActionsSchema):
     action: Literal[ActionNames.SET_DOOR_OPEN] = Field(..., description="Action to set the door open")
-    isOpen: bool = Field(..., description="Desired state of the door: True for OPEN, False for CLOSED")
+    open: bool = Field(..., description="Desired state of the door: True for OPEN, False for CLOSED")
 
 class SetDoorLockSchema(HouseActionsSchema):
     action: Literal[ActionNames.SET_DOOR_LOCK] = Field(..., description="Action to set the door lock")
-    isLocked: bool = Field(..., description="Desired state of the door lock: True for LOCKED, False for UNLOCKED")
+    locked: bool = Field(..., description="Desired state of the door lock: True for LOCKED, False for UNLOCKED")
 
 # Thermostat schema
 class SetThermostatSchema(HouseActionsSchema):
@@ -77,7 +77,7 @@ class ToggleAlarmSchema(HouseActionsSchema):
 
 class SetAlarmSchema(HouseActionsSchema):
     action: Literal[ActionNames.SET_ALARM] = Field(..., description="Action to set the alarm")
-    isArmed: bool = Field(..., description="Desired state of the alarm: True for ARMED, False for DISARMED")
+    armed: bool = Field(..., description="Desired state of the alarm: True for ARMED, False for DISARMED")
 
 # Blinds schema
 valid_rooms_for_blinds = Literal[
@@ -103,4 +103,4 @@ class ToggleFanSchema(HouseActionsSchema):
 class SetFanSchema(HouseActionsSchema):
     action: Literal[ActionNames.SET_FAN] = Field(..., description="Action to set the fan")
     room: valid_rooms_for_fans = Field(..., description="Room where the fan is located")
-    isOn: bool = Field(..., description="Desired state of the fan: True for ON, False for OFF")
+    on: bool = Field(..., description="Desired state of the fan: True for ON, False for OFF")
