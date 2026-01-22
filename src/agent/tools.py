@@ -10,18 +10,18 @@ from src.agent.schema import (
 from src.agent.prompts import HouseActionsPrompts
 
 class ToolNames(StrEnum):
-    TOGGLE_LIGHT = "toggleLight"
-    SET_LIGHT = "setLight"
-    TOGGLE_DOOR = "toggleDoor"
-    SET_DOOR_OPEN = "setDoorOpen"
-    TOGGLE_DOOR_LOCK = "toggleDoorLock"
-    SET_DOOR_LOCK = "setDoorLock"
-    SET_THERMOSTAT = "setThermostat"
-    TOGGLE_ALARM = "toggleAlarm"
-    SET_ALARM = "setAlarm"
-    SET_BLINDS = "setBlinds"
-    TOGGLE_FAN = "toggleFan"
-    SET_FAN = "setFan"
+    TOGGLE_LIGHT = "toggle_light"
+    SET_LIGHT = "set_light"
+    TOGGLE_DOOR = "toggle_door"
+    SET_DOOR_OPEN = "set_door_open"
+    TOGGLE_DOOR_LOCK = "toggle_door_lock"
+    SET_DOOR_LOCK = "set_door_lock"
+    SET_THERMOSTAT = "set_thermostat"
+    TOGGLE_ALARM = "toggle_alarm"
+    SET_ALARM = "set_alarm"
+    SET_BLINDS = "set_blinds"
+    TOGGLE_FAN = "toggle_fan"
+    SET_FAN = "set_fan"
 
 # Lights control tools
 @tool(ToolNames.TOGGLE_LIGHT, description=HouseActionsPrompts.TOGGLE_LIGHT, args_schema=ToggleLightSchema)
