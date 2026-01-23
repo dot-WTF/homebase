@@ -14,18 +14,12 @@ class PipExecutable(StrEnum):
     WINDOWS = "python -m pip"    
 
 def setup_uv(system: MachineSystem) -> bool:
-    if system == MachineSystem.UNIX:
-        try: 
-            subprocess.run([PipExecutable.UNIX, "install", "uv"], shell=True, check=True)
-        except Exception as e:
-            print(f"ERROR INSTALLING UV:\n {e}")
-            return False
-    else:
-        try:
-            subprocess.run([PipExecutable.WINDOWS, "install", "uv"], shell=True, check=True)
-        except Exception as e:
-            print(f"ERROR INSTALLING UV:\n {e}")
-            return False
+    pip_cmd = PipExecutable.UNIX if system == MachineSystem.UNIX else PipExecutable.WINDOWS
+    try: 
+        subprocess.run(f"{pip_cmd} install uv", shell=True, check=True)
+    except Exception as e:
+        print(f"ERROR INSTALLING UV:\n {e}")
+        return False
     return True
 
 def initialize_project()-> bool:
