@@ -13,6 +13,10 @@ class PipExecutable(StrEnum):
     UNIX = "python3 -m pip" 
     WINDOWS = "python -m pip"    
 
+class uvExecutable(StrEnum):
+    UNIX = "python3 -m uv"
+    WINDOWS = "python -m uv"
+
 def setup_uv(system: MachineSystem) -> bool:
     pip_cmd = PipExecutable.UNIX if system == MachineSystem.UNIX else PipExecutable.WINDOWS
     try: 
