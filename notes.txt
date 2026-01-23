@@ -1,0 +1,8 @@
+For windows guys
+
+1. If you run into any permission issues:
+-> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+2. To manually activate your environment
+.venv\Scripts\activate  
+
