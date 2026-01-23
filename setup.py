@@ -2,23 +2,23 @@ import os
 import sys
 import platform
 import subprocess
-from enum import StrEnum
+from enum import Enum
 
 # We use UNIX here to refer to any *NIX system including Linux and macOS
-class MachineSystem(StrEnum):
+class MachineSystem(str, Enum):
     UNIX = "unix" 
     WINDOWS = "windows"
 
-class PipExecutable(StrEnum):
+class PipExecutable(str, Enum):
     UNIX = "python3 -m pip" 
     WINDOWS = "python -m pip"    
 
-class uvExecutable(StrEnum):
+class uvExecutable(str, Enum):
     UNIX = "python3 -m uv"
     WINDOWS = "python -m uv"
 
 def setup_uv(system: MachineSystem) -> bool:
-    pip_cmd = PipExecutable.UNIX if system == MachineSystem.UNIX else PipExecutable.WINDOWS
+    pip_cmd = PipExecutable.UNIX.value if system == MachineSystem.UNIX else PipExecutable.WINDOWS.value
     try: 
         subprocess.run(f"{pip_cmd} install uv", shell=True, check=True)
     except Exception as e:
@@ -27,7 +27,7 @@ def setup_uv(system: MachineSystem) -> bool:
     return True
 
 def initialize_project(system: MachineSystem)-> bool:
-    uv_cmd = uvExecutable.UNIX if system == MachineSystem.UNIX else uvExecutable.WINDOWS
+    uv_cmd = uvExecutable.UNIX.value if system == MachineSystem.UNIX else uvExecutable.WINDOWS.value
     try:
         subprocess.run(f"{uv_cmd} init .", shell=True, check=True) 
     except Exception as e:
@@ -36,7 +36,7 @@ def initialize_project(system: MachineSystem)-> bool:
     return True
 
 def setup_venv(system: MachineSystem)-> bool:
-    uv_cmd = uvExecutable.UNIX if system == MachineSystem.UNIX else uvExecutable.WINDOWS
+    uv_cmd = uvExecutable.UNIX.value if system == MachineSystem.UNIX else uvExecutable.WINDOWS.value
     try:
         subprocess.run(f"{uv_cmd} venv", shell=True, check=True) 
     except Exception as e:
@@ -45,7 +45,7 @@ def setup_venv(system: MachineSystem)-> bool:
     return True
 
 def install_dependencies(system: MachineSystem) -> bool:
-    uv_cmd = uvExecutable.UNIX if system == MachineSystem.UNIX else uvExecutable.WINDOWS
+    uv_cmd = uvExecutable.UNIX.value if system == MachineSystem.UNIX else uvExecutable.WINDOWS.value
     try:
         subprocess.run(f"{uv_cmd} sync", shell=True, check=True)
     except Exception as e:

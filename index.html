@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Home Simulator</title>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+        canvas { display: block; }
+        
+        /* Control Panel Styling */
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            width: 200px;
+            backdrop-filter: blur(5px);
+        }
+        
+        h3 { margin: 0 0 15px 0; color: #333; font-size: 16px; }
+        
+        .control-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 13px;
+        }
+        
+        button:hover { background: #0056b3; }
+        button.active { background: #28a745; }
+        
+        .status { font-size: 12px; color: #666; }
+
+        /* API Instructions Overlay */
+        #api-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            background: rgba(0,0,0,0.6);
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="api-info">
+        > Open Console (F12) to test API<br>
+        > Try: SmartHomeAPI.setLights(true)
+    </div>
+
+    <div id="controls">
+        <h3>Home Control</h3>
+        
+        <div class="control-group">
+            <span class="status">Main Lights</span>
+            <button id="btn-lights" onclick="SmartHomeAPI.toggleLights()">Turn On</button>
+        </div>
+
+        <div class="control-group">
+            <span class="status">Front Door</span>
+            <button id="btn-door" onclick="SmartHomeAPI.toggleDoor()">Open</button>
+        </div>
+        
+        <div class="control-group">
+            <span class="status">Ambient Mode</span>
+            <button id="btn-ambient" onclick="SmartHomeAPI.toggleAmbient()">Cool</button>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // --- 1. SCENE SETUP ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a1a); // Dark background (night/evening)
+        scene.fog = new THREE.Fog(0x1a1a1a, 10, 50);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(8, 8, 8);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true; // Enable shadows for realism
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+
+        // --- 2. HOUSE CONSTRUCTION ---
+        
+        // Materials
+        const materials = {
+            floor: new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.8 }),
+            wall: new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 }),
+            door: new THREE.MeshStandardMaterial({ color: 0x8B4513, roughness: 0.6 }),
+            glass: new THREE.MeshPhysicalMaterial({ 
+                color: 0x88ccff, metalness: 0.1, roughness: 0, transparent: true, opacity: 0.3 
+            })
+        };
+
+        // Floor
+        const floor = new THREE.Mesh(new THREE.BoxGeometry(10, 0.2, 10), materials.floor);
+        floor.receiveShadow = true;
+        scene.add(floor);
+
+        // Walls (Simple Layout)
+        const wallGroup = new THREE.Group();
+        
+        // Back Wall
+        const backWall = new THREE.Mesh(new THREE.BoxGeometry(10, 3, 0.2), materials.wall);
+        backWall.position.set(0, 1.5, -4.9);
+        backWall.castShadow = true;
+        backWall.receiveShadow = true;
+        wallGroup.add(backWall);
+
+        // Side Wall (Left)
+        const leftWall = new THREE.Mesh(new THREE.BoxGeometry(0.2, 3, 10), materials.wall);
+        leftWall.position.set(-4.9, 1.5, 0);
+        leftWall.castShadow = true;
+        leftWall.receiveShadow = true;
+        wallGroup.add(leftWall);
+
+        // Partial Front Wall (Right side)
+        const frontWallR = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 0.2), materials.wall);
+        frontWallR.position.set(3, 1.5, 4.9);
+        frontWallR.castShadow = true;
+        wallGroup.add(frontWallR);
+
+        // Partial Front Wall (Left side)
+        const frontWallL = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 0.2), materials.wall);
+        frontWallL.position.set(-3, 1.5, 4.9);
+        frontWallL.castShadow = true;
+        wallGroup.add(frontWallL);
+
+        // Header above door
+        const doorHeader = new THREE.Mesh(new THREE.BoxGeometry(2, 1, 0.2), materials.wall);
+        doorHeader.position.set(0, 2.5, 4.9);
+        doorHeader.castShadow = true;
+        wallGroup.add(doorHeader);
+
+        scene.add(wallGroup);
+
+        // --- 3. SMART COMPONENTS ---
+
+        // A. The Smart Door
+        // We need a pivot group so the door swings from the hinge, not the center
+        const doorPivot = new THREE.Group();
+        doorPivot.position.set(-1, 0, 4.9); // Hinge location
+        
+        const doorMesh = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 0.1), materials.door);
+        doorMesh.position.set(1, 1, 0); // Offset geometry so pivot is at edge
+        doorMesh.castShadow = true;
+        
+        // Door Handle
+        const handle = new THREE.Mesh(new THREE.SphereGeometry(0.05), new THREE.MeshStandardMaterial({color: 0xffd700, metalness: 1}));
+        handle.position.set(1.8, 1, 0.1);
+        doorMesh.add(handle);
+
+        doorPivot.add(doorMesh);
+        scene.add(doorPivot);
+
+        // B. The Smart Lights
+        // 1. Lamp Geometry (Visual)
+        const lampGeo = new THREE.CylinderGeometry(0.1, 0.5, 0.2, 32, 1, true);
+        const lampMat = new THREE.MeshStandardMaterial({ color: 0x222222, side: THREE.DoubleSide });
+        const lampMesh = new THREE.Mesh(lampGeo, lampMat);
+        lampMesh.position.set(0, 2.9, 0);
+        scene.add(lampMesh);
+
+        // 2. The Actual Light Source (Logic)
+        const bulbLight = new THREE.PointLight(0xffaa00, 0, 10); // Start intensity 0 (OFF)
+        bulbLight.position.set(0, 2.5, 0);
+        bulbLight.castShadow = true;
+        bulbLight.shadow.bias = -0.0001;
+        scene.add(bulbLight);
+
+        // Ambient Light (Moonlight simulation)
+        const ambientLight = new THREE.AmbientLight(0x4040ff, 0.5); // Cool blue night light
+        scene.add(ambientLight);
+
+        // --- 4. STATE & LOGIC ---
+
+        const state = {
+            lightsOn: false,
+            doorOpen: false,
+            warmAmbient: false
+        };
+
+        // Animation targets
+        let targetDoorRotation = 0;
+
+        // --- 5. THE API ENDPOINTS ---
+        // We expose these functions to the global window object
+        window.SmartHomeAPI = {
+            
+            toggleLights: () => {
+                state.lightsOn = !state.lightsOn;
+                
+                // Update 3D Scene
+                bulbLight.intensity = state.lightsOn ? 10 : 0;
+                
+                // Update UI Button Text
+                const btn = document.getElementById('btn-lights');
+                btn.innerText = state.lightsOn ? "Turn Off" : "Turn On";
+                btn.className = state.lightsOn ? "active" : "";
+                
+                console.log(`[API] POST /lights -> state: ${state.lightsOn ? "ON" : "OFF"}`);
+            },
+
+            toggleDoor: () => {
+                state.doorOpen = !state.doorOpen;
+                
+                // Set target rotation (Logic handled in animate loop for smoothness)
+                targetDoorRotation = state.doorOpen ? -Math.PI / 2 : 0;
+
+                // Update UI
+                const btn = document.getElementById('btn-door');
+                btn.innerText = state.doorOpen ? "Close" : "Open";
+                btn.className = state.doorOpen ? "active" : "";
+
+                console.log(`[API] POST /door -> state: ${state.doorOpen ? "OPEN" : "CLOSED"}`);
+            },
+
+            toggleAmbient: () => {
+                state.warmAmbient = !state.warmAmbient;
+                
+                ambientLight.color.setHex(state.warmAmbient ? 0xffaa00 : 0x4040ff);
+                
+                const btn = document.getElementById('btn-ambient');
+                btn.innerText = state.warmAmbient ? "Warm" : "Cool";
+                
+                console.log(`[API] POST /ambient -> state: ${state.warmAmbient ? "WARM" : "COOL"}`);
+            },
+            
+            // Helper for console usage
+            help: () => {
+                console.table({
+                    "toggleLights()": "Switches main ceiling lamp",
+                    "toggleDoor()": "Opens/Closes front door",
+                    "toggleAmbient()": "Changes mood lighting"
+                });
+            }
+        };
+
+        // --- 6. RENDER LOOP ---
+        
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Smooth Door Animation (Linear Interpolation)
+            // We constantly lerp current rotation towards target rotation
+            doorPivot.rotation.y += (targetDoorRotation - doorPivot.rotation.y) * 0.1;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
