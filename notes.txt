@@ -4,5 +4,5 @@ For windows guys
 -> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 2. To manually activate your environment
-.venv\Scripts\activate  
+-> .venv\Scripts\activate  
 
