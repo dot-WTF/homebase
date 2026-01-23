@@ -26,32 +26,35 @@ def setup_uv(system: MachineSystem) -> bool:
         return False
     return True
 
-def initialize_project()-> bool:
+def initialize_project(system: MachineSystem)-> bool:
+    uv_cmd = uvExecutable.UNIX if system == MachineSystem.UNIX else uvExecutable.WINDOWS
     try:
-        subprocess.run(["uv", "init" "."], check=True) 
+        subprocess.run(f"{uv_cmd} init .", shell=True, check=True) 
     except Exception as e:
         print(f"ERROR INITIALIZING PROJECT:\n {e}")
         return False
     return True
 
-def setup_venv()-> bool:
+def setup_venv(system: MachineSystem)-> bool:
+    uv_cmd = uvExecutable.UNIX if system == MachineSystem.UNIX else uvExecutable.WINDOWS
     try:
-        subprocess.run(["uv", "venv"], check=True) 
+        subprocess.run(f"{uv_cmd} venv", shell=True, check=True) 
     except Exception as e:
         print(f"ERROR SETTING UP VENV:\n {e}")
         return False
     return True
 
-def install_dependencies() -> bool: 
+def install_dependencies(system: MachineSystem) -> bool:
+    uv_cmd = uvExecutable.UNIX if system == MachineSystem.UNIX else uvExecutable.WINDOWS
     try:
-        subprocess.run(["uv", "sync"], check=True)
+        subprocess.run(f"{uv_cmd} sync", shell=True, check=True)
     except Exception as e:
         print(f"ERROR INSTALLING DEPENDENCIES:\n {e}")
         return False
     return True
 
 def activate_venv(system: MachineSystem) -> bool:    
-    activate_script = system == MachineSystem.WINDOWS and ".\\.venv\\Scripts\\activate" or "source .venv/bin/activate"
+    activate_script = ".venv\\Scripts\\activate.bat" if system == MachineSystem.WINDOWS else "source .venv/bin/activate"
     try:
         subprocess.run(activate_script, shell=True, check=True)
     except Exception as e:
@@ -63,9 +66,9 @@ def main():
     system = platform.system().lower() == MachineSystem.WINDOWS and MachineSystem.WINDOWS or MachineSystem.UNIX
     
     setup_uv_result = setup_uv(system)
-    initialize_project_result = initialize_project()
-    setup_venv_result = setup_venv()
-    install_dependencies_result = install_dependencies()
+    initialize_project_result = initialize_project(system)
+    setup_venv_result = setup_venv(system)
+    install_dependencies_result = install_dependencies(system)
     activate_venv_result = activate_venv(system)
 
     result_base = [
