@@ -10,8 +10,8 @@ class MachineSystem(StrEnum):
     WINDOWS = "windows"
 
 class PipExecutable(StrEnum):
-    UNIX = "pip3"
-    WINDOWS = "pip"
+    UNIX = "python3 -m pip" 
+    WINDOWS = "python -m pip"    
 
 def setup_uv(system: MachineSystem) -> bool:
     if system == MachineSystem.UNIX:
