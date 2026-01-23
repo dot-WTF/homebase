@@ -9,16 +9,20 @@ class MachineSystem(StrEnum):
     UNIX = "unix" 
     WINDOWS = "windows"
 
+class PipExecutable(StrEnum):
+    UNIX = "pip3"
+    WINDOWS = "pip"
+
 def setup_uv(system: MachineSystem) -> bool:
     if system == MachineSystem.UNIX:
         try: 
-            subprocess.run(["curl", "-LsSf", "https://astral.sh/uv/install.sh", "|", "sh"], shell=True, check=True)
+            subprocess.run([PipExecutable.UNIX, "install", "uv"], shell=True, check=True)
         except Exception as e:
             print(f"ERROR INSTALLING UV:\n {e}")
             return False
     else:
         try:
-            subprocess.run(["powershell", "-ExecutionPolicy", "ByPass", "-c", "irm https://astral.sh/uv/install.ps1 | iex"], shell=True, check=True)
+            subprocess.run([PipExecutable.WINDOWS, "install", "uv"], shell=True, check=True)
         except Exception as e:
             print(f"ERROR INSTALLING UV:\n {e}")
             return False
