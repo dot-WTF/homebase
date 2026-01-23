@@ -1,86 +1,78 @@
 from enum import StrEnum
 
-# Light prompts
-toggle_light_prompt = '''
-Toggle a light in a specific room.
-Rooms: living, bedroom, kitchen, office, outdoor
-Example: {"action": "toggleLight", "params": {"room": "living"}}
-'''
+# Lights
+TOGGLE_LIGHT = """
+Use this tool whenever the user wants to toggle or switch a light without explicitly saying on or off.
+This includes phrases like "toggle", "switch", or "flip the light".
+Rooms: living, bedroom, kitchen, office, outdoor.
+"""
 
-set_light_prompt = '''
-Set light to specific state in a room.
-Rooms: living, bedroom, kitchen, office, outdoor
-Example: {"action": "setLight", "params": {"room": "bedroom", "isOn": true}}
-'''
+SET_LIGHT = """
+Use this tool whenever the user explicitly asks to turn a light on or off in a specific room.
+This includes phrases like "turn on", "turn off", or "set the light".
+Rooms: living, bedroom, kitchen, office, outdoor.
+"""
 
-# Door prompts
-toggle_door_prompt = '''
-Toggle door open/close state.
-Example: {"action": "toggleDoor"}
-'''
+# Doors
+TOGGLE_DOOR = """
+Use this tool whenever the user asks to toggle or switch the door state without clearly specifying open or close.
+"""
 
-toggle_door_lock_prompt = '''
-Toggle door lock state.
-Example: {"action": "toggleLock"}
-'''
+SET_DOOR_OPEN = """
+Use this tool whenever the user explicitly asks to open or close the door.
+"""
 
-set_door_open_prompt = '''
-Set door open/close state.
-Example: {"action": "setDoorOpen", "params": {"isOpen": true}}
-'''
+TOGGLE_DOOR_LOCK = """
+Use this tool whenever the user asks to toggle or switch the door lock state without specifying lock or unlock.
+"""
 
-set_door_lock_prompt = '''
-Set door lock state.
-Example: {"action": "setLock", "params": {"isLocked": true}}
-'''
-# Thermostat prompts
-set_thermostat_prompt = '''
-Set thermostat temperature and mode.
-Modes: heating, cooling, off
-Example: {"action": "setThermostat", "params": {"target": 24, "mode": "heating"}}
-'''
+SET_DOOR_LOCK = """
+Use this tool whenever the user explicitly asks to lock or unlock the door.
+"""
 
-toggle_alarm_prompt = '''
-Toggle alarm state.
-Example: {"action": "toggleAlarm"}
-'''
+# Thermostat
+SET_THERMOSTAT = """
+Use this tool whenever the user asks to change the thermostat temperature or mode.
+Modes include heating, cooling, or off.
+"""
 
-# Alarm prompts
-set_alarm_prompt = '''
-Set alarm armed/disarmed state.
-Example: {"action": "setAlarm", "params": {"isArmed": true}}
-'''
+# Alarm
+TOGGLE_ALARM = """
+Use this tool whenever the user asks to toggle or switch the alarm state without explicitly saying arm or disarm.
+"""
 
-# Blinds prompts
-set_blinds_prompt = '''
-Set blind position (0-100 percentage).
-Rooms: living, bedroom
-Example: {"action": "setBlinds", "params": {"room": "living", "percentage": 75}}
-'''
+SET_ALARM = """
+Use this tool whenever the user explicitly asks to arm or disarm the alarm system.
+"""
 
-# Fan prompts
-toggle_fan_prompt = '''
-Toggle fan in a specific room.
-Rooms: living, bedroom
-Example: {"action": "toggleFan", "params": {"room": "living"}}
-'''
+# Blinds
+SET_BLINDS = """
+Use this tool whenever the user asks to raise, lower, open, close, or set the position of blinds.
+Percentage values may range from 0 to 100.
+Rooms: living, bedroom.
+"""
 
-set_fan_prompt = '''
-Set fan state in a specific room.
-Rooms: living, bedroom
-Example: {"action": "setFan", "params": {"room": "bedroom", "isOn": true}}
-'''
+# Fans
+TOGGLE_FAN = """
+Use this tool whenever the user wants to toggle or switch a fan without specifying on or off.
+Rooms: living, bedroom.
+"""
+
+SET_FAN = """
+Use this tool whenever the user explicitly asks to turn a fan on or off in a room.
+Rooms: living, bedroom.
+"""
 
 class HouseActionsPrompts(StrEnum):
-    TOGGLE_LIGHT = toggle_light_prompt  
-    SET_LIGHT = set_light_prompt
-    TOGGLE_DOOR = toggle_door_prompt
-    TOGGLE_DOOR_LOCK = toggle_door_lock_prompt
-    SET_DOOR_OPEN = set_door_open_prompt
-    SET_DOOR_LOCK = set_door_lock_prompt
-    SET_THERMOSTAT = set_thermostat_prompt
-    TOGGLE_ALARM = toggle_alarm_prompt
-    SET_ALARM = set_alarm_prompt
-    SET_BLINDS = set_blinds_prompt
-    TOGGLE_FAN = toggle_fan_prompt
-    SET_FAN = set_fan_prompt
+    TOGGLE_LIGHT = TOGGLE_LIGHT
+    SET_LIGHT = SET_LIGHT
+    TOGGLE_DOOR = TOGGLE_DOOR
+    SET_DOOR_OPEN = SET_DOOR_OPEN
+    TOGGLE_DOOR_LOCK = TOGGLE_DOOR_LOCK
+    SET_DOOR_LOCK = SET_DOOR_LOCK
+    SET_THERMOSTAT = SET_THERMOSTAT
+    TOGGLE_ALARM = TOGGLE_ALARM
+    SET_ALARM = SET_ALARM
+    SET_BLINDS = SET_BLINDS
+    TOGGLE_FAN = TOGGLE_FAN
+    SET_FAN = SET_FAN
