@@ -31,8 +31,8 @@ def toggle_light(room: str, action: str = "toggleLight"):
     return "Light toggled." if result else "Failed to toggle light."
 
 @tool(ToolNames.SET_LIGHT, description=HouseActionsPrompts.SET_LIGHT, args_schema=SetLightSchema)
-def set_light(room: str, isOn: bool, action: str = "setLight"):
-    request = SetLightSchema(room=room, isOn=isOn, action=action)
+def set_light(room: str, on: bool, action: str = "setLight"):
+    request = SetLightSchema(room=room, on=on, action=action)
     result = send_request(request) 
     return "Light set." if result else "Failed to set light."
 
@@ -44,20 +44,20 @@ def toggle_door(action: str = "toggleDoor"):
     return "Door toggled." if result else "Failed to toggle door."
 
 @tool(ToolNames.SET_DOOR_OPEN, description=HouseActionsPrompts.SET_DOOR_OPEN, args_schema=SetDoorOpenSchema)
-def set_door_open(isOpen: bool, action: str = "setDoorOpen"):
-    request = SetDoorOpenSchema(isOpen=isOpen, action=action)
+def set_door_open(open: bool, action: str = "setDoorOpen"):
+    request = SetDoorOpenSchema(open=open, action=action)
     result = send_request(request)
     return "Door set open." if result else "Failed to set door open."
 
 @tool(ToolNames.TOGGLE_DOOR_LOCK, description=HouseActionsPrompts.TOGGLE_DOOR_LOCK, args_schema=ToggleDoorLockSchema)
-def toggle_door_lock(action: str = "toggleDoorLock"):
+def toggle_door_lock(action: str = "toggleLock"):
     request = ToggleDoorLockSchema(action=action)
     result = send_request(request)
     return "Door lock toggled." if result else "Failed to toggle door lock."
 
 @tool(ToolNames.SET_DOOR_LOCK, description=HouseActionsPrompts.SET_DOOR_LOCK, args_schema=SetDoorLockSchema)
-def set_door_lock(isLocked: bool, action: str = "setDoorLock"):
-    request = SetDoorLockSchema(isLocked=isLocked, action=action)
+def set_door_lock(locked: bool, action: str = "setLock"):
+    request = SetDoorLockSchema(locked=locked, action=action)
     result = send_request(request)
     return "Door lock set." if result else "Failed to set door lock."
 
@@ -70,8 +70,8 @@ def set_blinds(room:str, percentage: int, action: str = "setBlinds"):
 
 # Thermostat control tools
 @tool(ToolNames.SET_THERMOSTAT, description=HouseActionsPrompts.SET_THERMOSTAT, args_schema=SetThermostatSchema)
-def set_thermostat(temperature: float, mode: str, action: str = "setThermostat"):
-    request = SetThermostatSchema(temperature=temperature, mode=mode, action=action)
+def set_thermostat(target: int,  mode: str, action: str = "setThermostat"):
+    request = SetThermostatSchema(target=target, mode=mode, action=action)
     result = send_request(request)
     return "Thermostat set." if result else "Failed to set thermostat."
 
@@ -83,8 +83,8 @@ def toggle_fan(action: str = "toggleFan"):
     return "Fan toggled." if result else "Failed to toggle fan."
 
 @tool(ToolNames.SET_FAN, description=HouseActionsPrompts.SET_FAN, args_schema=SetFanSchema)
-def set_fan(room: str, isOn: bool, action: str = "setFan"):  
-    request = SetFanSchema(room=room, isOn=isOn, action=action)
+def set_fan(room: str, on: bool, action: str = "setFan"):  
+    request = SetFanSchema(room=room, on=on, action=action)
     result = send_request(request)
     return "Fan set." if result else "Failed to set fan."
 
@@ -96,8 +96,8 @@ def toggle_alarm(action: str = "toggleAlarm"):
     return "Alarm toggled." if result else "Failed to toggle alarm."
 
 @tool(ToolNames.SET_ALARM, description=HouseActionsPrompts.SET_ALARM, args_schema=SetAlarmSchema)
-def set_alarm(isArmed: bool, action: str = "setAlarm"):    
-    request = SetAlarmSchema(isArmed=isArmed, action=action)
+def set_alarm(armed: bool, action: str = "setAlarm"):    
+    request = SetAlarmSchema(armed=armed, action=action)
     result = send_request(request)
     return "Alarm set." if result else "Failed to set alarm."
 
