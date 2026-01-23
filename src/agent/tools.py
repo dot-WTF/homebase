@@ -96,8 +96,8 @@ def toggle_alarm(action: str = "toggleAlarm"):
     return "Alarm toggled." if result else "Failed to toggle alarm."
 
 @tool(ToolNames.SET_ALARM, description=HouseActionsPrompts.SET_ALARM, args_schema=SetAlarmSchema)
-def set_alarm(armed: bool, action: str = "setAlarm"):    
-    request = SetAlarmSchema(armed=armed, action=action)
+def set_alarm(on: bool, action: str = "setAlarm"):    
+    request = SetAlarmSchema(on=on, action=action)
     result = send_request(request)
     return "Alarm set." if result else "Failed to set alarm."
 

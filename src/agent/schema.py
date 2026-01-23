@@ -77,7 +77,7 @@ class ToggleAlarmSchema(HouseActionsSchema):
 
 class SetAlarmSchema(HouseActionsSchema):
     action: Literal[ActionNames.SET_ALARM] = Field(..., description="Action to set the alarm")
-    armed: bool = Field(..., description="Desired state of the alarm: True for ARMED, False for DISARMED")
+    on: bool = Field(..., description="Desired state of the alarm: True for ARMED, False for DISARMED")
 
 # Blinds schema
 valid_rooms_for_blinds = Literal[
