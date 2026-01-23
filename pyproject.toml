@@ -9,6 +9,7 @@ dependencies = [
     "langchain>=1.2.6",
     "langchain-openai>=1.1.7",
     "pydantic>=2.12.5",
+    "rich>=14.2.0",
     "sounddevice>=0.5.4",
     "soundfile>=0.13.1",
     "starlette>=0.52.1",
