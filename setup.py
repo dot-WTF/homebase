@@ -10,7 +10,7 @@ class MachineSystem(StrEnum):
     WINDOWS = "windows"
 
 def setup_uv(system: MachineSystem) -> bool:
-    if system == MachineSystem.WINDOWS:
+    if system == MachineSystem.UNIX:
         try: 
             subprocess.run(["curl", "-LsSf", "https://astral.sh/uv/install.sh", "|", "sh"], shell=True, check=True)
         except Exception as e:
