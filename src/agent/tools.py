@@ -2,9 +2,7 @@ from langchain.tools import tool
 from enum import StrEnum
 from src.utils.net import send_request
 from src.agent.schema import (
-    ToggleAlarmSchema, ToggleLightSchema, ToggleDoorSchema,
-    ToggleFanSchema, SetLightSchema, SetDoorOpenSchema,
-    SetThermostatSchema, SetAlarmSchema, SetBlindsSchema, SetFanSchema
+    ToggleLightSchema, SetLightSchema
 )
 from src.agent.prompts import HouseActionsPrompts
 
@@ -35,68 +33,7 @@ def set_light(room: str, on: bool, action: str = "setLight"):
     result = send_request(request) 
     return "Light set." if result else "Failed to set light."
 
-# Door control tools 
-@tool(ToolNames.TOGGLE_DOOR, description=HouseActionsPrompts.TOGGLE_DOOR, args_schema=ToggleDoorSchema)
-def toggle_door(action: str = "toggleDoor"):
-    request = ToggleDoorSchema(action=action)
-    result = send_request(request)
-    return "Door toggled." if result else "Failed to toggle door."
-
-@tool(ToolNames.SET_DOOR_OPEN, description=HouseActionsPrompts.SET_DOOR_OPEN, args_schema=SetDoorOpenSchema)
-def set_door_open(open: bool, action: str = "setDoorOpen"):
-    request = SetDoorOpenSchema(open=open, action=action)
-    result = send_request(request)
-    return "Door set open." if result else "Failed to set door open."
-
-# Blinds control tools 
-@tool(ToolNames.SET_BLINDS, description=HouseActionsPrompts.SET_BLINDS, args_schema=SetBlindsSchema)
-def set_blinds(room:str, percentage: int, action: str = "setBlinds"):
-    request = SetBlindsSchema(room=room, percentage=percentage, action=action)
-    result = send_request(request)
-    return "Blinds set." if result else "Failed to set blinds."
-
-# Thermostat control tools
-@tool(ToolNames.SET_THERMOSTAT, description=HouseActionsPrompts.SET_THERMOSTAT, args_schema=SetThermostatSchema)
-def set_thermostat(target: int,  mode: str, action: str = "setThermostat"):
-    request = SetThermostatSchema(target=target, mode=mode, action=action)
-    result = send_request(request)
-    return "Thermostat set." if result else "Failed to set thermostat."
-
-# Fans control tools 
-@tool(ToolNames.TOGGLE_FAN, description=HouseActionsPrompts.TOGGLE_FAN, args_schema=ToggleFanSchema)
-def toggle_fan(action: str = "toggleFan"):
-    request = ToggleFanSchema(action=action)
-    result = send_request(request)
-    return "Fan toggled." if result else "Failed to toggle fan."
-
-@tool(ToolNames.SET_FAN, description=HouseActionsPrompts.SET_FAN, args_schema=SetFanSchema)
-def set_fan(room: str, on: bool, action: str = "setFan"):  
-    request = SetFanSchema(room=room, on=on, action=action)
-    result = send_request(request)
-    return "Fan set." if result else "Failed to set fan."
-
-# Alarm control tools
-@tool(ToolNames.TOGGLE_ALARM, description=HouseActionsPrompts.TOGGLE_ALARM, args_schema=ToggleAlarmSchema)
-def toggle_alarm(action: str = "toggleAlarm"):
-    request = ToggleAlarmSchema(action=action)
-    result = send_request(request)
-    return "Alarm toggled." if result else "Failed to toggle alarm."
-
-@tool(ToolNames.SET_ALARM, description=HouseActionsPrompts.SET_ALARM, args_schema=SetAlarmSchema)
-def set_alarm(on: bool, action: str = "setAlarm"):    
-    request = SetAlarmSchema(on=on, action=action)
-    result = send_request(request)
-    return "Alarm set." if result else "Failed to set alarm."
-
 HOUSE_AGENT_TOOLS = [
     toggle_light,
     set_light,
-    toggle_door,
-    set_door_open,
-    set_thermostat,
-    toggle_alarm,
-    set_alarm,
-    set_blinds,
-    toggle_fan,
-    set_fan
 ]
