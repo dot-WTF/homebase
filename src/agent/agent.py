@@ -23,6 +23,7 @@ Always use tools for control requests.
 def create_house_agent(model_name: str = OpenAIModels.GPT_4O_MINI, temperature: float = 0) -> any:
     model = ChatOpenAI(model=model_name, temperature=temperature, api_key=OPENAI_API_KEY)
     model = model.bind_tools(HOUSE_AGENT_TOOLS, tool_choice="required")
+    model = model.with_retry(stop_after_attempt=3)
     agent = create_agent(
         model=model,
         tools=HOUSE_AGENT_TOOLS,
