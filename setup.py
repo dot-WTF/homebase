@@ -2,18 +2,18 @@ import os
 import sys
 import platform
 import subprocess
-from enum import StrEnum
+from enum import Enum
 
 # We use UNIX here to refer to any *NIX system including Linux and macOS
-class MachineSystem(StrEnum):
+class MachineSystem(str, Enum):
     UNIX = "unix" 
     WINDOWS = "windows"
 
-class PipExecutable(StrEnum):
+class PipExecutable(str, Enum):
     UNIX = "python3 -m pip" 
     WINDOWS = "python -m pip"    
 
-class uvExecutable(StrEnum):
+class uvExecutable(str, Enum):
     UNIX = "python3 -m uv"
     WINDOWS = "python -m uv"
 
