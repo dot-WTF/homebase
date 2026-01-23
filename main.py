@@ -2,7 +2,7 @@ import sys
 from src.agent.agent import create_house_agent
 from src.utils.audio import listen_for_audio, test_device_availabaility
 from src.utils.stt import transcribe_audio
-from src.utils.ux import it_prints_if_not_none, extract_ai_message, extract_tool_message, printify, MessageTypes
+from src.utils.ux import extract_ai_message, extract_tool_message, printify, MessageTypes
 from src.utils.exception import suppress_stderr
 from enum import StrEnum
 

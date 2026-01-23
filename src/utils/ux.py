@@ -51,15 +51,6 @@ def printify(
     *,
     expand: bool = True
 ):
-    """
-    Pretty terminal output for agent messages.
-
-    Args:
-        message: Text to print
-        message_type: MessageTypes enum
-        expand: Whether panel spans terminal width
-    """
-
     style_config = MESSAGE_STYLES.get(message_type)
 
     # Fallback safety
