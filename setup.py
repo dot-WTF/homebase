@@ -54,7 +54,7 @@ def install_dependencies(system: MachineSystem) -> bool:
     return True
 
 def activate_venv(system: MachineSystem) -> bool:    
-    activate_script = ".venv\\Scripts\\activate.bat" if system == MachineSystem.WINDOWS else "source .venv/bin/activate"
+    activate_script = ".venv\\Scripts\\activate.psl" if system == MachineSystem.WINDOWS else "source .venv/bin/activate"
     try:
         subprocess.run(activate_script, shell=True, check=True)
     except Exception as e:
