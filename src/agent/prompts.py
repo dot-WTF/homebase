@@ -22,14 +22,6 @@ SET_DOOR_OPEN = """
 Use this tool whenever the user explicitly asks to open or close the door.
 """
 
-TOGGLE_DOOR_LOCK = """
-Use this tool whenever the user asks to toggle or switch the door lock state without specifying lock or unlock.
-"""
-
-SET_DOOR_LOCK = """
-Use this tool whenever the user explicitly asks to lock or unlock the door.
-"""
-
 # Thermostat
 SET_THERMOSTAT = """
 Use this tool whenever the user asks to change the thermostat temperature or mode.
@@ -68,8 +60,6 @@ class HouseActionsPrompts(StrEnum):
     SET_LIGHT = SET_LIGHT
     TOGGLE_DOOR = TOGGLE_DOOR
     SET_DOOR_OPEN = SET_DOOR_OPEN
-    TOGGLE_DOOR_LOCK = TOGGLE_DOOR_LOCK
-    SET_DOOR_LOCK = SET_DOOR_LOCK
     SET_THERMOSTAT = SET_THERMOSTAT
     TOGGLE_ALARM = TOGGLE_ALARM
     SET_ALARM = SET_ALARM

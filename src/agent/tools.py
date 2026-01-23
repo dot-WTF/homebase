@@ -3,8 +3,7 @@ from enum import StrEnum
 from src.utils.net import send_request
 from src.agent.schema import (
     ToggleAlarmSchema, ToggleLightSchema, ToggleDoorSchema,
-    ToggleDoorLockSchema, ToggleFanSchema, 
-    SetLightSchema, SetDoorOpenSchema, SetDoorLockSchema,
+    ToggleFanSchema, SetLightSchema, SetDoorOpenSchema,
     SetThermostatSchema, SetAlarmSchema, SetBlindsSchema, SetFanSchema
 )
 from src.agent.prompts import HouseActionsPrompts
@@ -48,18 +47,6 @@ def set_door_open(open: bool, action: str = "setDoorOpen"):
     request = SetDoorOpenSchema(open=open, action=action)
     result = send_request(request)
     return "Door set open." if result else "Failed to set door open."
-
-@tool(ToolNames.TOGGLE_DOOR_LOCK, description=HouseActionsPrompts.TOGGLE_DOOR_LOCK, args_schema=ToggleDoorLockSchema)
-def toggle_door_lock(action: str = "toggleLock"):
-    request = ToggleDoorLockSchema(action=action)
-    result = send_request(request)
-    return "Door lock toggled." if result else "Failed to toggle door lock."
-
-@tool(ToolNames.SET_DOOR_LOCK, description=HouseActionsPrompts.SET_DOOR_LOCK, args_schema=SetDoorLockSchema)
-def set_door_lock(locked: bool, action: str = "setLock"):
-    request = SetDoorLockSchema(locked=locked, action=action)
-    result = send_request(request)
-    return "Door lock set." if result else "Failed to set door lock."
 
 # Blinds control tools 
 @tool(ToolNames.SET_BLINDS, description=HouseActionsPrompts.SET_BLINDS, args_schema=SetBlindsSchema)
@@ -106,8 +93,6 @@ HOUSE_AGENT_TOOLS = [
     set_light,
     toggle_door,
     set_door_open,
-    toggle_door_lock,
-    set_door_lock,
     set_thermostat,
     toggle_alarm,
     set_alarm,

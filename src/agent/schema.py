@@ -54,16 +54,9 @@ class SetLightSchema(HouseActionsSchema):
 class ToggleDoorSchema(HouseActionsSchema):
     action: Literal[ActionNames.TOGGLE_DOOR] = Field(..., description="Action to toggle the door")
 
-class ToggleDoorLockSchema(HouseActionsSchema):
-    action: Literal[ActionNames.TOGGLE_DOOR_LOCK] = Field(..., description="Action to toggle the door lock")
-
 class SetDoorOpenSchema(HouseActionsSchema):
     action: Literal[ActionNames.SET_DOOR_OPEN] = Field(..., description="Action to set the door open")
     open: bool = Field(..., description="Desired state of the door: True for OPEN, False for CLOSED")
-
-class SetDoorLockSchema(HouseActionsSchema):
-    action: Literal[ActionNames.SET_DOOR_LOCK] = Field(..., description="Action to set the door lock")
-    locked: bool = Field(..., description="Desired state of the door lock: True for LOCKED, False for UNLOCKED")
 
 # Thermostat schema
 class SetThermostatSchema(HouseActionsSchema):
