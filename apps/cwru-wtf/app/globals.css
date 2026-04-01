@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 35%;
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 142.1 76.2% 36.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 220 20% 7%;
+    --foreground: 210 20% 95%;
+    --card: 220 18% 10%;
+    --card-foreground: 210 20% 95%;
+    --popover: 220 18% 10%;
+    --popover-foreground: 210 20% 95%;
+    --primary: 142.1 70.6% 45.3%;
+    --primary-foreground: 144.9 80.4% 10%;
+    --secondary: 220 14% 16%;
+    --secondary-foreground: 210 20% 95%;
+    --muted: 220 14% 16%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 220 14% 14%;
+    --accent-foreground: 210 20% 95%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 220 14% 18%;
+    --input: 220 14% 18%;
+    --ring: 142.4 71.8% 29.2%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@keyframes glitchShake {
+  0%, 100% { transform: translate(0); }
+  10% { transform: translate(-2px, -1px); }
+  20% { transform: translate(2px, 1px); }
+  30% { transform: translate(-1px, 2px); }
+  40% { transform: translate(1px, -1px); }
+  50% { transform: translate(-2px, 1px); }
+  60% { transform: translate(2px, -2px); }
+  70% { transform: translate(-1px, -1px); }
+  80% { transform: translate(1px, 2px); }
+  90% { transform: translate(-2px, -1px); }
+}
+
+@keyframes colorGlitch {
+  0%, 100% {
+    text-shadow: none;
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+    filter: hue-rotate(90deg);
+  }
+  50% {
+    text-shadow: -2px 0 #ff0000, 2px 0 #00ffff;
+    filter: hue-rotate(180deg);
+  }
+  75% {
+    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+    filter: hue-rotate(270deg);
+  }
+}
+
+.glitch-text {
+  animation: glitchShake 0.1s infinite, colorGlitch 0.2s infinite;
+}
