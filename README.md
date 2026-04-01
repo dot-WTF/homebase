@@ -1,46 +1,41 @@
-# Monorepo Homebase
+# Homebase
 
-This is a [Turborepo](https://turbo.build/) monorepo.
+Homebase is the monorepo behind CWRU.WTF, a student-led collective at Case Western Reserve University for people who build bold, weird, useful things.
 
-## Apps
+The spirit is simple: less talking, more shipping. Projects span hardware, software, games, art, AI, and experiments that feel a little impossible until someone builds them.
 
-- **[cwru-wordle](./apps/cwru-wordle)**: A Wordle clone built with Next.js.
-- **[cwru-wtf](./apps/cwru.wtf)**: The main `cwru.wtf` application built with Next.js.
+## What lives here
 
-## Getting Started
+- [apps/cwru-wtf](apps/cwru-wtf): Main CWRU.WTF site and platform.
+- [apps/cwru-wordle](apps/cwru-wordle): CWRU-themed Wordle game.
+- [apps/cwru-unblock](apps/cwru-unblock): Unblock game app.
+- [apps/cwru-unblock-api](apps/cwru-unblock-api): API for Unblock.
+- [packages](packages): Shared internal configs and libraries used by apps.
 
-### Install Dependencies
+## Build system (high level)
+
+- Package manager: pnpm workspaces
+- Task orchestration and caching: Turborepo
+- Language/tooling: TypeScript + Prettier
+- Runtime baseline: Node.js 18+
+
+## Common commands
 
 ```sh
 pnpm install
-```
-
-### Running Apps (Development)
-
-To run all apps simultaneously in development mode with hot-reloading:
-
-```sh
 pnpm dev
-```
-
-The apps will be available on the following ports (check terminal output to confirm):
-
-- **cwru-wordle**: [http://localhost:3000](http://localhost:3000)
-- **cwru-wtf**: [http://localhost:3001](http://localhost:3001)
-
-### Building and Running (Production)
-
-To build all apps and start them in production mode:
-
-```sh
 pnpm build
-pnpm start
+pnpm lint
+pnpm check-types
 ```
 
-### Running Specific Apps
-
-To run commands for a specific app (e.g., `cwru.wtf`), use the `--filter` flag:
+Run a single app with a filter:
 
 ```sh
 pnpm dev --filter=cwru-wtf
 ```
+
+## Notes
+
+- Environment variables like DATABASE_URL, JWT_SECRET, and AUTH_SECRET are used by relevant apps.
+- For app-specific setup, routes, and deployment details, use each app's local README.
