@@ -1,1 +1,0 @@
-ALTER TABLE "submissions" ALTER COLUMN "is_approved" DROP DEFAULT;
