@@ -1,8 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Code, Cpu, Rocket, Zap, Wrench } from "lucide-react"
+import { ArrowRight, Rocket, Zap, Wrench } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import ProjectCard from "@/components/project-card"
 import WtfMeanings from "@/components/wtf-meanings"
 import SubmissionForm from "@/components/submission-form"
 import GlitchyWtfText from "@/components/glitchy-wtf-text"
@@ -89,76 +88,6 @@ export default function Home() {
                 We host late-night build sessions, mentor each other, and collaborate on projects that make us excited.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <hr className="border-border" />
-      </div>
-
-      {/* Projects Section */}
-      <section id="projects" className="py-20 md:py-32">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12">
-            <p className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground mb-4">
-              Projects
-            </p>
-            <h2 className="font-serif text-3xl md:text-5xl font-bold tracking-tight leading-tight">
-              Featured Projects
-            </h2>
-            <p className="mt-4 font-sans text-xl leading-7 text-muted-foreground max-w-2xl">
-              Check out what our members have been building. From hardware to software, from practical to just-for-fun.
-            </p>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
-            <ProjectCard
-              title="FPGA Multilayer Perceptron"
-              description='Taking custom "AI" onto custom hardware! Designing and implementing a Neural Network directly on FPGA for high-speed, low-latency classification.'
-              tags={["FPGA", "AI", "Hardware", "Neural Networks"]}
-              image="/perceptrona.jpg"
-              icon={<Cpu className="h-5 w-5" />}
-              link=""
-              status="pending"
-            />
-
-            <ProjectCard
-              title="CWRU Games"
-              description={`Games made by CWRU students, for CWRU students. \n From wordle to full game theory economic simulations.`}
-              tags={["Software", "Web", "NextJS"]}
-              image="/wordle.png"
-              icon={<Code className="h-5 w-5" />}
-              link="https://games.cwru.wtf"
-              status="complete"
-            />
-
-            <ProjectCard
-              title="*WTF Supercomputer"
-              description="A compute cluster made of donated compute from CWRU student's actual machines; For AI or High performance computing?"
-              tags={["Distributed systems", "AI", "Hardware"]}
-              image="wt-compute.png"
-              icon={<Cpu className="h-5 w-5" />}
-              link=""
-              status="in-progress"
-            />
-
-            <ProjectCard
-              title="Interactive Art"
-              description="An interactive art installation that responds to environmental stimuli; creating an ever-evolving visual experience."
-              tags={["Art", "Electronics", "Hardware"]}
-              image="kinetic.png"
-              icon={<Wrench className="h-5 w-5" />}
-              link=""
-              status="pending"
-            />
-          </div>
-
-          <div className="mt-12 text-center">
-            <Button variant="outline" className="rounded-full border-border hover:bg-muted font-mono text-sm px-8">
-              View All Projects <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
           </div>
         </div>
       </section>
